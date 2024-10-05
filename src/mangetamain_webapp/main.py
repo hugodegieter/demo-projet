@@ -2,11 +2,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+
 # Charger les données
 @st.cache_data
 def load_data():
-    data = pd.read_csv('data/dataset.csv')
+    data = pd.read_csv("data/dataset.csv")
     return data
+
 
 data = load_data()
 
@@ -14,7 +16,9 @@ data = load_data()
 st.title("Mangetamain Webapp d'Analyse de Données")
 
 # Sélectionner une analyse
-analysis_type = st.sidebar.selectbox("Choisissez une analyse", ["Analyse 1", "Analyse 2"])
+analysis_type = st.sidebar.selectbox(
+    "Choisissez une analyse", ["Analyse 1", "Analyse 2"]
+)
 
 if analysis_type == "Analyse 1":
     st.header("Analyse 1")
