@@ -17,6 +17,7 @@ sphinx = "^8.0.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.8.0"
+mypy = "^1.11.2"
 
 [build-system]
 requires = ["poetry-core"]
