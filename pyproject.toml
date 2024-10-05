@@ -1,9 +1,11 @@
 [tool.poetry]
 name = "demo-projet"
 version = "0.1.0"
-description = ""
+description = "A demo project"
 authors = ["DE GIETER Hugo <hugo.degieter@telecom-paris.fr>"]
 readme = "README.md"
+packages = [{include = "src"}]
+
 
 [tool.poetry.dependencies]
 python = "^3.12"
