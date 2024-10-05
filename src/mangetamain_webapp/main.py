@@ -18,7 +18,8 @@ def main():
         st.header("Analyse 1")
         fig = px.histogram(data, x="column_name")
         st.plotly_chart(fig)
-    elif analysis_type == "Analyse 2":
+
+    if analysis_type == "Analyse 2":
         st.header("Analyse 2")
         fig = px.scatter(data, x="column_x", y="column_y")
         st.plotly_chart(fig)
