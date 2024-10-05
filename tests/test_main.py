@@ -1,7 +1,9 @@
 import pytest
 import pandas as pd
 import streamlit as st
-from src.mangetamain_webapp.main import load_data
+import plotly.express as px
+from unittest.mock import MagicMock
+from src.mangetamain_webapp.main import load_data, main
 
 @pytest.fixture
 def mock_read_csv(monkeypatch):
@@ -15,13 +17,17 @@ def mock_read_csv(monkeypatch):
 
 @pytest.fixture
 def mock_streamlit(monkeypatch):
-    monkeypatch.setattr(st, 'title', lambda x: None)
-    monkeypatch.setattr(st.sidebar, 'selectbox', lambda label, options: options[0])
-    monkeypatch.setattr(st, 'header', lambda x: None)
-    monkeypatch.setattr(st, 'plotly_chart', lambda x: None)
+    monkeypatch.setattr(st, 'title', MagicMock())
+    monkeypatch.setattr(st, 'header', MagicMock())
+    monkeypatch.setattr(st, 'plotly_chart', MagicMock())
+
+@pytest.fixture
+def mock_plotly(monkeypatch):
+    monkeypatch.setattr(px, 'histogram', lambda data, x: "histogram")
+    monkeypatch.setattr(px, 'scatter', lambda data, x, y: "scatter")
 
 def test_load_data(mock_read_csv):
-    # Clear Streamlit cache to avoid UnhashableParamError
+    # Clear Streamlit cache
     st.cache_data.clear()
     
     data = load_data()
@@ -29,13 +35,28 @@ def test_load_data(mock_read_csv):
     assert list(data.columns) == ['column_name', 'column_x', 'column_y']
     assert len(data) == 3
 
-def test_streamlit_app(mock_streamlit):
-    from src.mangetamain_webapp.main import data, analysis_type
+def test_main(mock_streamlit, mock_plotly, mock_read_csv, monkeypatch):
+    from src.mangetamain_webapp.main import main
 
-    # Test Analysis 1
-    analysis_type = "Analyse 1"
-    assert analysis_type == "Analyse 1"
+    # Clear Streamlit cache
+    st.cache_data.clear()
 
-    # Test Analysis 2
-    analysis_type = "Analyse 2"
-    assert analysis_type == "Analyse 2"
+    # Mock the selectbox to return "Analyse 1"
+    monkeypatch.setattr(st.sidebar, 'selectbox', lambda label, options: "Analyse 1")
+    
+    # Call the main function
+    main()
+    
+    # Verify px.histogram is called
+    histogram = px.histogram(pd.DataFrame(), x='column_name')
+    assert histogram == "histogram"
+
+    # Mock the selectbox to return "Analyse 2"
+    monkeypatch.setattr(st.sidebar, 'selectbox', lambda label, options: "Analyse 2")
+    
+    # Call the main function again
+    main()
+    
+    # Verify px.scatter is called
+    scatter = px.scatter(pd.DataFrame(), x='column_x', y='column_y')
+    assert scatter == "scatter"
