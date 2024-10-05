@@ -23,7 +23,7 @@ jobs:
 
     - name: Run tests
       run: |
-        poetry run pytest --cov=src
+        poetry run pytest --cov-config=.coveragerc --cov=src
 
     - name: Check PEP 8 compliance
       run: |
