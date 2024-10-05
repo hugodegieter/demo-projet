@@ -18,6 +18,7 @@ sphinx = "^8.0.2"
 [tool.poetry.group.dev.dependencies]
 black = "^24.8.0"
 mypy = "^1.11.2"
+pandas-stubs = "^2.2.2.240909"
 
 [build-system]
 requires = ["poetry-core"]
