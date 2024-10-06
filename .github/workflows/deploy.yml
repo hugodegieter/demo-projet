@@ -26,6 +26,6 @@ jobs:
 
     - name: Deploy to Streamlit Cloud
       run: |
-        curl -X POST https://api.streamlit.io/v1/deploy \
+        curl -X POST https://demo-projet-w7y7hbtzymwxtzfhs2qn2t.streamlit.app/ \
         -H "Content-Type: application/json" \
         -d '{"branch": "master", "repository": "hugodegieter/demo-projet"}'
