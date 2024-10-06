@@ -1,9 +1,11 @@
 name: Deploy to Streamlit Cloud
 
 on:
-  push:
-    branches:
-      - master  # Déclenche le workflow sur les pushs vers la branche main
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
 
 jobs:
   deploy:
@@ -26,6 +28,6 @@ jobs:
 
     - name: Deploy to Streamlit Cloud
       run: |
-        curl -X POST https://demo-projet-w7y7hbtzymwxtzfhs2qn2t.streamlit.app/ \
+        curl -X POST https://api.streamlit.io/v1/deploy \
         -H "Content-Type: application/json" \
         -d '{"branch": "master", "repository": "hugodegieter/demo-projet"}'
