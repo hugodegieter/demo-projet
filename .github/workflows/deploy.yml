@@ -1,0 +1,31 @@
+name: Deploy to Streamlit Cloud
+
+on:
+  push:
+    branches:
+      - master  # Déclenche le workflow sur les pushs vers la branche main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry install
+
+    - name: Deploy to Streamlit Cloud
+      run: |
+        curl -X POST https://api.streamlit.io1/deploy \
+        -H "Content-Type: application/json" \
+        -d '{"branch": "master", "repository": "hugodegieter/demo-projet"}'
