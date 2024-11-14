@@ -23,7 +23,7 @@ def generate_layout():
         layout="wide",
     )
     # Titre principal de l'application
-    st.image("src/frontend/images/mangetamain.jpg")
+    st.image("src/frontend/images/mangetamain.jpg", use_container_width=True)
 
     menu = st.selectbox("", ["Généralité", "Clusterisation", "Page 3"])
 
